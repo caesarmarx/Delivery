@@ -56,7 +56,9 @@ public class MakeUploadDataTask extends AsyncTask<Void, Void, String> {
                 jsonDespatch.put("despatchID", despatchItem.getDespatchId());
                 jsonDespatch.put("status", StateConsts.DESPATCH_COMPLETED);
                 jsonDespatch.put("run", despatchItem.getRunId());
+                jsonDespatch.put("route", despatchItem.getRoute());
                 jsonDespatch.put("driver", despatchItem.getDriverName());
+                jsonDespatch.put("reg", despatchItem.getReg());
                 jsonDespatch.put("date", despatchItem.getCreationDate());
 
                 ArrayList<OutletItem> outletItems = outletDB.fetchOutletsByDespatchID(despatchItem.getDespatchId());
@@ -89,6 +91,7 @@ public class MakeUploadDataTask extends AsyncTask<Void, Void, String> {
                         jsonStock.put("tier", item.getTier());
                         jsonStock.put("slot", item.getSlot());
                         jsonStock.put("qty", item.getQty());
+                        jsonStock.put("tiersspace", item.getTierspace());
                         jsonStock.put("remove", item.getRemove());
                         jsonStock.put("removeID", item.getRemoveID());
 

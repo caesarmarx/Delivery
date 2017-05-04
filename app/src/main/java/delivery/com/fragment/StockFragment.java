@@ -35,8 +35,11 @@ public class StockFragment extends Fragment {
     TextView tvTier;
     @Bind(R.id.stock_list)
     RecyclerView stockList;
+    @Bind(R.id.tv_tier_space)
+    TextView tvTierSpace;
 
     private int tier;
+    private int tierspace = 0;
     private OutletItem outletItem;
 
     private LinearLayoutManager mLinearLayoutManager;
@@ -74,6 +77,11 @@ public class StockFragment extends Fragment {
     private void getStocks() {
         StockDB db = new StockDB(getActivity());
         ArrayList<StockItem> items = db.fetchStocksByOutletID(outletItem.getOutletId(), tier);
+
+        if(!items.isEmpty())
+            tierspace = items.get(0).getTierspace();
+        String strTierSpace = String.format(getResources().getString(R.string.tier_space_format), tierspace);
+        tvTierSpace.setText(strTierSpace);
 
         adapter.addItems(items);
         adapter.notifyDataSetChanged();

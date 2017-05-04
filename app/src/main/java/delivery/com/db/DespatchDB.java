@@ -80,6 +80,8 @@ public class DespatchDB extends DBHelper {
             value.put(DBConsts.FIELD_RUN, bean.getRunId());
             value.put(DBConsts.FIELD_DRIVER, bean.getDriverName());
             value.put(DBConsts.FIELD_DATE, bean.getCreationDate());
+            value.put(DBConsts.FIELD_ROUTE, bean.getRoute());
+            value.put(DBConsts.FIELD_REG, bean.getReg());
             value.put(DBConsts.FIELD_COMPLETED, bean.getCompleted());
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getWritableDatabase();
@@ -145,6 +147,8 @@ public class DespatchDB extends DBHelper {
                     COL_RUN         		= c.getColumnIndexOrThrow(DBConsts.FIELD_RUN),
                     COL_DRIVER   		    = c.getColumnIndexOrThrow(DBConsts.FIELD_DRIVER),
                     COL_DATE    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_DATE),
+                    COL_ROUTE               = c.getColumnIndexOrThrow(DBConsts.FIELD_ROUTE),
+                    COL_REG                 = c.getColumnIndexOrThrow(DBConsts.FIELD_REG),
                     COL_COMPLETED 		    = c.getColumnIndexOrThrow(DBConsts.FIELD_COMPLETED);
 
             while (c.moveToNext()) {
@@ -153,6 +157,8 @@ public class DespatchDB extends DBHelper {
                 bean.setRunId(c.getString(COL_RUN));
                 bean.setDriverName(c.getString(COL_DRIVER));
                 bean.setCreationDate(c.getString(COL_DATE));
+                bean.setRoute(c.getString(COL_ROUTE));
+                bean.setReg(c.getString(COL_REG));
                 bean.setCompleted(c.getInt(COL_COMPLETED));
                 ret.add(bean);
             }

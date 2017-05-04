@@ -16,6 +16,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBConsts.FIELD_DESPATCH_ID + " TEXT," +
                     DBConsts.FIELD_RUN + " TEXT," +
                     DBConsts.FIELD_DRIVER + " TEXT," +
+                    DBConsts.FIELD_ROUTE + " TEXT," +
+                    DBConsts.FIELD_REG + " TEXT," +
                     DBConsts.FIELD_DATE + " TEXT," +
                     DBConsts.FIELD_COMPLETED + " INTEGER);";
 
@@ -42,6 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBConsts.FIELD_TIER + " INTEGER," +
                     DBConsts.FIELD_SLOT + " INTEGER," +
                     DBConsts.FIELD_QTY + " INTEGER," +
+                    DBConsts.FIELD_TIER_SPACE + " INTEGER," +
                     DBConsts.FIELD_STATUS + " TEXT," +
                     DBConsts.FIELD_TITLE_ID + " TEXT," +
                     DBConsts.FIELD_SIZE + " TEXT," +

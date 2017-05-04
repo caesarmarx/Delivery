@@ -12,6 +12,7 @@ public class StockItem implements Serializable {
     private String stockId;
     private String stock;
     private int tier;
+    private int tierspace;
     private int slot;
     private int qty;
     private String status;
@@ -26,6 +27,7 @@ public class StockItem implements Serializable {
         stockId = "";
         stock = "";
         tier = 0;
+        tierspace = 0;
         slot = 0;
         qty = 0;
         status = "";
@@ -129,5 +131,13 @@ public class StockItem implements Serializable {
 
     public String getSize() {
         return size;
+    }
+
+    public void setTierspace(int value) {
+        this.tierspace = value;
+    }
+
+    public int getTierspace() {
+        return tierspace;
     }
 }

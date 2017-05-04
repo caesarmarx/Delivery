@@ -12,4 +12,8 @@ public class URLManager {
     public static String getUploadDespatchURL() {
         return "http://glideadmin.co.uk/json/deliverySend.php";
     }
+
+    public static String getLoginURL() {
+        return "http://glideadmin.co.uk/json/login.php";
+    }
 }

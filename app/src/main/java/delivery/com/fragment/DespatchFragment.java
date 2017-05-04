@@ -60,7 +60,7 @@ public class DespatchFragment extends Fragment {
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         despatchList.setLayoutManager(mLinearLayoutManager);
-        despatchList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+//        despatchList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         adapter = new DespatchAdapter(DespatchFragment.this);
         despatchList.setAdapter(adapter);
@@ -106,6 +106,13 @@ public class DespatchFragment extends Fragment {
         }
 
         despatches = db.fetchAllDespatches();
+        for(int i = 0; i < despatches.size(); i++) {
+            int allCnt = outletDB.getAllCount(despatches.get(i).getDespatchId());
+            int completedCnt = outletDB.getCompletedCount(despatches.get(i).getDespatchId());
+
+            despatches.get(i).setnCntCompleted(completedCnt);
+            despatches.get(i).setnCntAll(allCnt);
+        }
 
         adapter.clearItems();
         adapter.addItems(despatches);

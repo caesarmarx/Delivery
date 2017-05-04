@@ -70,7 +70,7 @@ public class ReasonActivity extends AppCompatActivity
         mLinearLayoutManager = new LinearLayoutManager(ReasonActivity.this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         reasonList.setLayoutManager(mLinearLayoutManager);
-        reasonList.addItemDecoration(new DividerItemDecoration(ReasonActivity.this, DividerItemDecoration.VERTICAL_LIST));
+//        reasonList.addItemDecoration(new DividerItemDecoration(ReasonActivity.this, DividerItemDecoration.VERTICAL_LIST));
 
         String[] reasons = getResources().getStringArray(R.array.outlet_reason);
 

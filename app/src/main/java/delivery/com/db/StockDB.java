@@ -65,6 +65,7 @@ public class StockDB extends DBHelper {
             value.put(DBConsts.FIELD_TIER, bean.getTier());
             value.put(DBConsts.FIELD_SLOT, bean.getSlot());
             value.put(DBConsts.FIELD_QTY, bean.getQty());
+            value.put(DBConsts.FIELD_TIER_SPACE, bean.getTierspace());
             value.put(DBConsts.FIELD_STATUS, bean.getStatus());
             value.put(DBConsts.FIELD_REMOVE, bean.getRemove());
             value.put(DBConsts.FIELD_REMOVE_ID, bean.getRemoveID());
@@ -137,6 +138,7 @@ public class StockDB extends DBHelper {
                     COL_TIER    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_TIER),
                     COL_SLOT     		    = c.getColumnIndexOrThrow(DBConsts.FIELD_SLOT),
                     COL_QTY     	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_QTY),
+                    COL_TIER_SPACE          = c.getColumnIndexOrThrow(DBConsts.FIELD_TIER_SPACE),
                     COL_STATUS    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_STATUS),
                     COL_TITLE_ID   	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_TITLE_ID),
                     COL_SIZE    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_SIZE),
@@ -152,6 +154,7 @@ public class StockDB extends DBHelper {
                 bean.setTier(c.getInt(COL_TIER));
                 bean.setSlot(c.getInt(COL_SLOT));
                 bean.setQty(c.getInt(COL_QTY));
+                bean.setTierspace(c.getInt(COL_TIER_SPACE));
                 bean.setStatus(c.getString(COL_STATUS));
                 bean.setTitleID(c.getString(COL_TITLE_ID));
                 bean.setSize(c.getString(COL_SIZE));

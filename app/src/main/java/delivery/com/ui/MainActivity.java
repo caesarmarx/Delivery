@@ -16,6 +16,8 @@ import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import delivery.com.R;
+import delivery.com.application.DeliveryApplication;
+import delivery.com.consts.StateConsts;
 import delivery.com.fragment.DespatchFragment;
 import delivery.com.fragment.HomeFragment;
 
@@ -60,9 +62,15 @@ public class MainActivity extends AppCompatActivity
         super.onPostCreate(savedInstanceState);
 
         FragmentManager manager = getFragmentManager();
-        manager.beginTransaction()
-                .replace(R.id.main_frame, HomeFragment.newInstance())
-                .commit();
+        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
+            manager.beginTransaction()
+                    .replace(R.id.main_frame, HomeFragment.newInstance())
+                    .commit();
+        } else {
+            manager.beginTransaction()
+                    .replace(R.id.main_frame, DespatchFragment.newInstance())
+                    .commit();
+        }
     }
 
     @Override

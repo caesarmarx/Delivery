@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,14 +42,34 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
     @Override
     public void onBindViewHolder(final StockViewHolder holder, int position) {
+        if(position % 2 == 0) {
+            holder.totalLayout.setBackgroundColor(parent.getResources().getColor(R.color.colorLightGray));
+        } else {
+            holder.totalLayout.setBackgroundColor(parent.getResources().getColor(R.color.colorWhite));
+        }
         final StockItem item = items.get(position);
 
         holder.tvSlot.setText(String.valueOf(item.getSlot()));
+        holder.tvEmptySlot.setText(String.valueOf(item.getSlot()));
         holder.tvStock.setText(item.getStock());
         holder.tvTitleID.setText("[" + item.getTitleID() + "]");
         holder.tvSize.setText("[" + item.getSize() + "]");
         holder.tvStock.setSelected(true);
         holder.tvStockStatus.setText(item.getStatus());
+
+        holder.stockLayout.setVisibility(View.VISIBLE);
+        holder.removeLayout.setVisibility(View.GONE);
+        holder.emptyLayout.setVisibility(View.GONE);
+
+        if(item.getStatus().equals("In Stock")) {
+            holder.tvStockStatus.setTextColor(parent.getResources().getColor(R.color.colorGreen));
+        } else if(item.getStatus().equals("Out of Stock")){
+            holder.tvStockStatus.setTextColor(parent.getResources().getColor(R.color.colorRemove));
+        } else {
+            holder.stockLayout.setVisibility(View.GONE);
+            holder.removeLayout.setVisibility(View.GONE);
+            holder.emptyLayout.setVisibility(View.VISIBLE);
+        }
 
         if(!item.getRemove().isEmpty()) {
             holder.removeLayout.setVisibility(View.VISIBLE);
@@ -150,6 +171,10 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
     public class StockViewHolder extends RecyclerView.ViewHolder {
         public final View view;
 
+        @Bind(R.id.total_layout)
+        LinearLayout totalLayout;
+        @Bind(R.id.stock_layout)
+        RelativeLayout stockLayout;
         @Bind(R.id.remove_layout)
         LinearLayout removeLayout;
         @Bind(R.id.tv_slot)
@@ -174,6 +199,10 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         Button btnNone;
         @Bind(R.id.btn_missing)
         Button btnMissing;
+        @Bind(R.id.tv_empty_slot)
+        TextView tvEmptySlot;
+        @Bind(R.id.empty_layout)
+        LinearLayout emptyLayout;
 
         public StockViewHolder(View view) {
             super(view);

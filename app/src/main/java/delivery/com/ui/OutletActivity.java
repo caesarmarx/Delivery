@@ -40,6 +40,10 @@ public class OutletActivity extends AppCompatActivity {
     TextView tvRun;
     @Bind(R.id.tv_driver_name)
     TextView tvDriverName;
+    @Bind(R.id.tv_route)
+    TextView tvRoute;
+    @Bind(R.id.tv_reg)
+    TextView tvReg;
 
     private OutletAdapter adapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -58,12 +62,14 @@ public class OutletActivity extends AppCompatActivity {
         tvDespatchID.setText(despatchItem.getDespatchId());
         tvRun.setText(despatchItem.getRunId());
         tvDriverName.setText(despatchItem.getDriverName());
+        tvRoute.setText(despatchItem.getRoute());
+        tvReg.setText(despatchItem.getReg());
 
         outletList.setHasFixedSize(true);
         mLinearLayoutManager = new LinearLayoutManager(OutletActivity.this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         outletList.setLayoutManager(mLinearLayoutManager);
-        outletList.addItemDecoration(new DividerItemDecoration(OutletActivity.this, DividerItemDecoration.VERTICAL_LIST));
+//        outletList.addItemDecoration(new DividerItemDecoration(OutletActivity.this, DividerItemDecoration.VERTICAL_LIST));
 
         adapter = new OutletAdapter(OutletActivity.this);
         outletList.setAdapter(adapter);

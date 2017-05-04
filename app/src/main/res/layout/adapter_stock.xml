@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/total_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/stock_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -64,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="OUT OF STOCK"
+                    android:textStyle="bold"
                     style="@style/TextDefault"/>
 
             </LinearLayout>
@@ -71,6 +75,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_below="@id/info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -84,7 +89,6 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
                 android:background="@drawable/qty_bg_default"/>
-
             <Button
                 android:id="@+id/btn_restock"
                 android:layout_width="0dp"
@@ -117,7 +121,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/remove_layout"
@@ -188,6 +192,27 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_empty_slot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:text="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Empty row"
+            android:textStyle="bold"
+            style="@style/TextDefault"/>
     </LinearLayout>
 
 </LinearLayout>

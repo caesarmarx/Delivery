@@ -14,6 +14,8 @@ public class DBConsts {
     public static final String FIELD_DESPATCH_ID = "despatch_id";
     public static final String FIELD_RUN = "run";
     public static final String FIELD_DRIVER = "driver";
+    public static final String FIELD_ROUTE = "route";
+    public static final String FIELD_REG = "reg";
     public static final String FIELD_DATE = "created_at";
     public static final String FIELD_COMPLETED = "completed";
 
@@ -31,6 +33,7 @@ public class DBConsts {
     public static final String FIELD_TIER = "tier";
     public static final String FIELD_SLOT = "slot";
     public static final String FIELD_QTY = "qty";
+    public static final String FIELD_TIER_SPACE = "tier_space";
     public static final String FIELD_STATUS = "status";
     public static final String FIELD_REMOVE = "remove";
     public static final String FIELD_REMOVE_ID = "remove_id";

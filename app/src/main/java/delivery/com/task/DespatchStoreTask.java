@@ -57,6 +57,8 @@ public class DespatchStoreTask extends AsyncTask<String, Void, Integer> {
                 despatchItem.setRunId(jsonDespatchItem.getString("run"));
                 despatchItem.setDriverName(jsonDespatchItem.getString("driver"));
                 despatchItem.setCreationDate(jsonDespatchItem.getString("date"));
+                despatchItem.setRoute(jsonDespatchItem.getString("route"));
+                despatchItem.setReg(jsonDespatchItem.getString("reg"));
                 despatchItem.setCompleted(StateConsts.DESPATCH_DEFAULT);
 
                 if(!despatchDB.isExist(despatchItem)) {
@@ -93,6 +95,7 @@ public class DespatchStoreTask extends AsyncTask<String, Void, Integer> {
                             stockItem.setSize(jsonStockItem.getString("size"));
                             stockItem.setStatus(jsonStockItem.getString("status"));
                             stockItem.setTier(jsonStockItem.getInt("tier"));
+                            stockItem.setTierspace(jsonStockItem.getInt("tiersspace"));
                             String slot = jsonStockItem.getString("slot");
                             if(!slot.isEmpty())
                                 stockItem.setSlot(Integer.valueOf(jsonStockItem.getString("slot")));

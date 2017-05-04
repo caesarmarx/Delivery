@@ -25,6 +25,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import delivery.com.R;
+import delivery.com.application.DeliveryApplication;
 import delivery.com.consts.StateConsts;
 import delivery.com.db.DespatchDB;
 import delivery.com.db.OutletDB;
@@ -148,40 +149,52 @@ public class HomeFragment extends Fragment {
 
     @OnClick(R.id.btn_download_dispatch)
     void onClickBtnDownDespatch() {
-        progressDialog.setMessage(getResources().getString(R.string.downloading));
-        progressDialog.show();
-        startDownloadDespatch();
+        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
+            progressDialog.setMessage(getResources().getString(R.string.downloading));
+            progressDialog.show();
+            startDownloadDespatch();
+        } else {
+            showPermissionDenied();
+        }
     }
 
     @OnClick(R.id.btn_upload_dispatches)
     void onClickBtnUploadDespatch() {
-        progressDialog.setMessage(getResources().getString(R.string.processing));
-        progressDialog.show();
+        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
+            progressDialog.setMessage(getResources().getString(R.string.processing));
+            progressDialog.show();
 
-        MakeUploadDataTask task = new MakeUploadDataTask(getActivity());
-        task.execute();
+            MakeUploadDataTask task = new MakeUploadDataTask(getActivity());
+            task.execute();
+        } else {
+            showPermissionDenied();
+        }
     }
 
     @OnClick(R.id.btn_remove_datas)
     void onClickBtnRemoveData() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getString(R.string.app_name));
-        builder.setMessage(getString(R.string.msg_ask_remove_datas));
-        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                progressDialog.setMessage(getResources().getString(R.string.removing));
-                progressDialog.show();
-                RemoveAllDataTask task = new RemoveAllDataTask(getActivity());
-                task.execute();
-            }
-        });
-        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).create().show();
+        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(getString(R.string.app_name));
+            builder.setMessage(getString(R.string.msg_ask_remove_datas));
+            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    progressDialog.setMessage(getResources().getString(R.string.removing));
+                    progressDialog.show();
+                    RemoveAllDataTask task = new RemoveAllDataTask(getActivity());
+                    task.execute();
+                }
+            });
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create().show();
+        } else {
+            showPermissionDenied();
+        }
     }
 
     private void startDownloadDespatch() {
@@ -227,6 +240,10 @@ public class HomeFragment extends Fragment {
         progressDialog.show();
         DespatchStoreTask task = new DespatchStoreTask(getActivity());
         task.execute(despatches);
+    }
+
+    private void showPermissionDenied() {
+        Toast.makeText(getActivity(), R.string.permission_denied, Toast.LENGTH_SHORT).show();
     }
 
 }
