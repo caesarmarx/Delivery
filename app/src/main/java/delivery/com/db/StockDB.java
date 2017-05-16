@@ -18,29 +18,11 @@ public class StockDB extends DBHelper {
         super(context);
     }
 
-    public ArrayList<StockItem> fetchStocksByOutletID(String outletID, int tier) {
+    public ArrayList<StockItem> fetchStocksByOutletID(String outletID, String tier) {
         ArrayList<StockItem> ret = null;
         try {
-            String szWhere = DBConsts.FIELD_OUTLET_ID + " = '" + outletID + "' AND " + DBConsts.FIELD_TIER + " = " + tier;
-            String szOrderBy = DBConsts.FIELD_SLOT + " ASC";
-            synchronized (DB_LOCK) {
-                SQLiteDatabase db = getReadableDatabase();
-                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, szOrderBy);
-                ret = createOutletBeans(cursor);
-                db.close();
-            }
-        } catch (IllegalStateException ex) {
-            ex.printStackTrace();
-        }
-
-        return ret;
-    }
-
-    public ArrayList<StockItem> fetchAllStocksByOutletID(String outletID) {
-        ArrayList<StockItem> ret = null;
-        try {
-            String szWhere = DBConsts.FIELD_OUTLET_ID + " = '" + outletID + "'";
-            String szOrderBy = DBConsts.FIELD_TIER + " ASC";
+            String szWhere = DBConsts.FIELD_OUTLET_ID + " = '" + outletID + "' AND " + DBConsts.FIELD_TIER + " = '" + tier + "'";
+            String szOrderBy = DBConsts.FIELD_SLOT_ORDER + " ASC";
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
                 Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, szOrderBy);
@@ -65,12 +47,12 @@ public class StockDB extends DBHelper {
             value.put(DBConsts.FIELD_TIER, bean.getTier());
             value.put(DBConsts.FIELD_SLOT, bean.getSlot());
             value.put(DBConsts.FIELD_QTY, bean.getQty());
-            value.put(DBConsts.FIELD_TIER_SPACE, bean.getTierspace());
             value.put(DBConsts.FIELD_STATUS, bean.getStatus());
             value.put(DBConsts.FIELD_REMOVE, bean.getRemove());
             value.put(DBConsts.FIELD_REMOVE_ID, bean.getRemoveID());
             value.put(DBConsts.FIELD_TITLE_ID, bean.getTitleID());
             value.put(DBConsts.FIELD_SIZE, bean.getSize());
+            value.put(DBConsts.FIELD_SLOT_ORDER, bean.getSlotOrder());
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getWritableDatabase();
                 ret = db.insert(DBConsts.TABLE_NAME_STOCK, null, value);
@@ -138,11 +120,11 @@ public class StockDB extends DBHelper {
                     COL_TIER    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_TIER),
                     COL_SLOT     		    = c.getColumnIndexOrThrow(DBConsts.FIELD_SLOT),
                     COL_QTY     	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_QTY),
-                    COL_TIER_SPACE          = c.getColumnIndexOrThrow(DBConsts.FIELD_TIER_SPACE),
                     COL_STATUS    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_STATUS),
                     COL_TITLE_ID   	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_TITLE_ID),
                     COL_SIZE    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_SIZE),
                     COL_REMOVE     		    = c.getColumnIndexOrThrow(DBConsts.FIELD_REMOVE),
+                    COL_SLOT_ORDER  		= c.getColumnIndexOrThrow(DBConsts.FIELD_SLOT_ORDER),
                     COL_REMOVE_ID     	 	= c.getColumnIndexOrThrow(DBConsts.FIELD_REMOVE_ID);
 
             while (c.moveToNext()) {
@@ -151,13 +133,13 @@ public class StockDB extends DBHelper {
                 bean.setOutletID(c.getString(COL_OUTLET_ID));
                 bean.setStockId(c.getString(COL_STOCK_ID));
                 bean.setStock(c.getString(COL_STOCK));
-                bean.setTier(c.getInt(COL_TIER));
-                bean.setSlot(c.getInt(COL_SLOT));
+                bean.setTier(c.getString(COL_TIER));
+                bean.setSlot(c.getString(COL_SLOT));
                 bean.setQty(c.getInt(COL_QTY));
-                bean.setTierspace(c.getInt(COL_TIER_SPACE));
                 bean.setStatus(c.getString(COL_STATUS));
                 bean.setTitleID(c.getString(COL_TITLE_ID));
                 bean.setSize(c.getString(COL_SIZE));
+                bean.setSlotOrder(c.getInt(COL_SLOT_ORDER));
                 bean.setRemove(c.getString(COL_REMOVE));
                 bean.setRemoveID(c.getString(COL_REMOVE_ID));
                 ret.add(bean);

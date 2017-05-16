@@ -14,11 +14,13 @@ import delivery.com.consts.StateConsts;
 import delivery.com.db.DespatchDB;
 import delivery.com.db.OutletDB;
 import delivery.com.db.StockDB;
+import delivery.com.db.TierDB;
 import delivery.com.event.DespatchStoreEvent;
 import delivery.com.event.MakeUploadDataEvent;
 import delivery.com.model.DespatchItem;
 import delivery.com.model.OutletItem;
 import delivery.com.model.StockItem;
+import delivery.com.model.TierItem;
 
 public class MakeUploadDataTask extends AsyncTask<Void, Void, String> {
 
@@ -45,6 +47,7 @@ public class MakeUploadDataTask extends AsyncTask<Void, Void, String> {
 
             DespatchDB despatchDB = new DespatchDB(ctx);
             OutletDB outletDB = new OutletDB(ctx);
+            TierDB tierDB = new TierDB(ctx);
             StockDB stockDB = new StockDB(ctx);
 
             ArrayList<DespatchItem> despatchItems = despatchDB.fetchCompletedDespatches();
@@ -75,30 +78,46 @@ public class MakeUploadDataTask extends AsyncTask<Void, Void, String> {
                     jsonOutlet.put("delivered", outletItem.getDelivered());
                     jsonOutlet.put("deliveredtime", outletItem.getDeliveredTime());
                     jsonOutlet.put("reason", outletItem.getReason());
-                    jsonOutlet.put("tiers", outletItem.getTiers());
+                    jsonOutlet.put("tierstotal", outletItem.getTiers());
 
-                    JSONArray jsonStockArray = new JSONArray();
-                    ArrayList<StockItem> stockItems = stockDB.fetchAllStocksByOutletID(outletItem.getOutletId());
-                    for(int k = 0; k < stockItems.size(); k++) {
-                        StockItem item = stockItems.get(k);
+                    int tierstotal = outletItem.getTiers();
+                    JSONArray jsonTierArray = new JSONArray();
+                    for(int u = 1; u <= tierstotal; u++) {
+                        ArrayList<TierItem> tierItems = tierDB.fetchAllTiersByOutletID(outletItem.getOutletId(), String.valueOf(u));
 
-                        JSONObject jsonStock = new JSONObject();
-                        jsonStock.put("stockID", item.getStockId());
-                        jsonStock.put("titleID", item.getTitleID());
-                        jsonStock.put("stock", item.getStock());
-                        jsonStock.put("size", item.getSize());
-                        jsonStock.put("status", item.getStatus());
-                        jsonStock.put("tier", item.getTier());
-                        jsonStock.put("slot", item.getSlot());
-                        jsonStock.put("qty", item.getQty());
-                        jsonStock.put("tiersspace", item.getTierspace());
-                        jsonStock.put("remove", item.getRemove());
-                        jsonStock.put("removeID", item.getRemoveID());
 
-                        jsonStockArray.put(jsonStock);
+                        for (int t = 0; t < tierItems.size(); t++) {
+                            TierItem tierItem = tierItems.get(t);
+                            JSONObject jsonTier = new JSONObject();
+                            jsonTier.put("tier_no", u - 1);
+                            jsonTier.put("slots", tierItem.getSlots());
+                            jsonTier.put("tierOrder", tierItem.getTierOrder());
+                            jsonTier.put("tierspace", tierItem.getTierspace());
+                            JSONArray jsonStockArray = new JSONArray();
+                            ArrayList<StockItem> stockItems = stockDB.fetchStocksByOutletID(outletItem.getOutletId(), String.valueOf(u));
+                            for (int k = 0; k < stockItems.size(); k++) {
+                                StockItem item = stockItems.get(k);
+
+                                JSONObject jsonStock = new JSONObject();
+                                jsonStock.put("stockID", item.getStockId());
+                                jsonStock.put("titleID", item.getTitleID());
+                                jsonStock.put("stock", item.getStock());
+                                jsonStock.put("size", item.getSize());
+                                jsonStock.put("status", item.getStatus());
+                                jsonStock.put("slot", item.getSlot());
+                                jsonStock.put("qty", item.getQty());
+                                jsonStock.put("remove", item.getRemove());
+                                jsonStock.put("removeID", item.getRemoveID());
+                                jsonStock.put("slotOrder", item.getSlotOrder());
+
+                                jsonStockArray.put(jsonStock);
+                            }
+                            jsonTier.put("stock", jsonStockArray);
+
+                            jsonTierArray.put(jsonTier);
+                        }
                     }
-                    jsonOutlet.put("stock", jsonStockArray);
-
+                    jsonOutlet.put("tiers", jsonTierArray);
                     jsonOutletArray.put(jsonOutlet);
                 }
                 jsonDespatch.put("outlet", jsonOutletArray);

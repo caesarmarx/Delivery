@@ -32,7 +32,6 @@ dependencies {
     compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile 'com.madgag.spongycastle:pkix:1.54.0.0'
     compile 'com.madgag.spongycastle:pg:1.54.0.0'
-    compile 'com.google.code.gson:gson:2.4'
     compile files('libs/eventbus-3.0.0.jar')
     compile files('libs/butterknife-7.0.1.jar')
     testCompile 'junit:junit:4.12'

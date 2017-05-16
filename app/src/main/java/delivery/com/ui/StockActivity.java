@@ -29,11 +29,13 @@ import delivery.com.R;
 import delivery.com.consts.StateConsts;
 import delivery.com.db.OutletDB;
 import delivery.com.db.StockDB;
+import delivery.com.db.TierDB;
 import delivery.com.fragment.DespatchFragment;
 import delivery.com.fragment.HomeFragment;
 import delivery.com.fragment.StockFragment;
 import delivery.com.model.OutletItem;
 import delivery.com.model.StockItem;
+import delivery.com.model.TierItem;
 import delivery.com.util.DateUtil;
 
 public class StockActivity extends AppCompatActivity
@@ -79,9 +81,12 @@ public class StockActivity extends AppCompatActivity
             btnComplete.setText(getResources().getText(R.string.btn_complete));
         }
 
+        TierDB tierDB = new TierDB(this);
+        ArrayList<TierItem> tierItems = tierDB.fetchTiers(outletItem.getDespatchId(), outletItem.getOutletId());
+
         fragments = new StockFragment[tiers];
-        for(int i = 0; i < tiers; i++) {
-            fragments[i] = new StockFragment().newInstance(outletItem, i);
+        for(int i = 0; i < tierItems.size(); i++) {
+            fragments[i] = new StockFragment().newInstance(outletItem, tierItems.get(i).getTierNo());
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

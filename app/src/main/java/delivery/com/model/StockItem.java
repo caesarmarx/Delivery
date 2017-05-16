@@ -11,30 +11,30 @@ public class StockItem implements Serializable {
     private String outletID;
     private String stockId;
     private String stock;
-    private int tier;
-    private int tierspace;
-    private int slot;
+    private String tier;
+    private String slot;
     private int qty;
     private String status;
     private String remove;
     private String removeID;
     private String titleID;
     private String size;
+    private int slotOrder;
 
     public StockItem() {
         despatchID = "";
         outletID = "";
         stockId = "";
         stock = "";
-        tier = 0;
-        tierspace = 0;
-        slot = 0;
+        tier = "";
+        slot = "";
         qty = 0;
         status = "";
         remove = "";
         removeID = "";
         titleID = "";
         size = "";
+        slotOrder = 0;
     }
 
     public void setDespatchID(String value) {
@@ -69,19 +69,19 @@ public class StockItem implements Serializable {
         return stock;
     }
 
-    public void setTier(int value) {
+    public void setTier(String value) {
         this.tier = value;
     }
 
-    public int getTier() {
+    public String getTier() {
         return tier;
     }
 
-    public void setSlot(int value) {
+    public void setSlot(String value) {
         this.slot = value;
     }
 
-    public int getSlot() {
+    public String getSlot() {
         return slot;
     }
 
@@ -133,11 +133,11 @@ public class StockItem implements Serializable {
         return size;
     }
 
-    public void setTierspace(int value) {
-        this.tierspace = value;
+    public void setSlotOrder(int value) {
+        this.slotOrder = value;
     }
 
-    public int getTierspace() {
-        return tierspace;
+    public int getSlotOrder() {
+        return slotOrder;
     }
 }

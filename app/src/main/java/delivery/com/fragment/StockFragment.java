@@ -20,8 +20,10 @@ import delivery.com.R;
 import delivery.com.adapter.DespatchAdapter;
 import delivery.com.adapter.StockAdapter;
 import delivery.com.db.StockDB;
+import delivery.com.db.TierDB;
 import delivery.com.model.OutletItem;
 import delivery.com.model.StockItem;
+import delivery.com.model.TierItem;
 import delivery.com.ui.DividerItemDecoration;
 import delivery.com.ui.StockActivity;
 
@@ -38,8 +40,8 @@ public class StockFragment extends Fragment {
     @Bind(R.id.tv_tier_space)
     TextView tvTierSpace;
 
-    private int tier;
-    private int tierspace = 0;
+    private String tier;
+    private String tierspace = "0";
     private OutletItem outletItem;
 
     private LinearLayoutManager mLinearLayoutManager;
@@ -51,7 +53,7 @@ public class StockFragment extends Fragment {
 
         ButterKnife.bind(StockFragment.this, v);
 
-        tvTier.setText("ROW " + String.valueOf(tier + 1));
+        tvTier.setText("ROW " + String.valueOf(Integer.valueOf(tier) + 1));
 
         stockList.setHasFixedSize(true);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -67,7 +69,7 @@ public class StockFragment extends Fragment {
         return v;
     }
 
-    public static StockFragment newInstance(OutletItem item, int pos) {
+    public static StockFragment newInstance(OutletItem item, String pos) {
         StockFragment f = new StockFragment();
         f.tier = pos;
         f.outletItem = item;
@@ -76,10 +78,13 @@ public class StockFragment extends Fragment {
 
     private void getStocks() {
         StockDB db = new StockDB(getActivity());
+        TierDB tierDB = new TierDB(getActivity());
         ArrayList<StockItem> items = db.fetchStocksByOutletID(outletItem.getOutletId(), tier);
+        ArrayList<TierItem> tierItems = tierDB.fetchAllTiersByOutletID(outletItem.getOutletId(), tier);
+        if(tierItems != null) {
+            tierspace = tierItems.get(0).getTierspace();
+        }
 
-        if(!items.isEmpty())
-            tierspace = items.get(0).getTierspace();
         String strTierSpace = String.format(getResources().getString(R.string.tier_space_format), tierspace);
         tvTierSpace.setText(strTierSpace);
 

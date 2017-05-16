@@ -8,6 +8,7 @@ import org.greenrobot.eventbus.EventBus;
 import delivery.com.db.DespatchDB;
 import delivery.com.db.OutletDB;
 import delivery.com.db.StockDB;
+import delivery.com.db.TierDB;
 import delivery.com.event.DownloadDespatchEvent;
 import delivery.com.event.RemoveAllDataEvent;
 import delivery.com.proxy.DownloadDespatchProxy;
@@ -31,6 +32,8 @@ public class RemoveAllDataTask extends AsyncTask<String, Void, Boolean> {
         try {
             StockDB stockDB = new StockDB(context);
             stockDB.removeAllDatas();
+            TierDB tierDB = new TierDB(context);
+            tierDB.removeAllDatas();
             OutletDB outletDB = new OutletDB(context);
             outletDB.removeAllDatas();
             DespatchDB despatchDB = new DespatchDB(context);

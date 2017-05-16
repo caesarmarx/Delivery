@@ -2,6 +2,7 @@ package delivery.com.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -12,11 +13,13 @@ import delivery.com.consts.StateConsts;
 import delivery.com.db.DespatchDB;
 import delivery.com.db.OutletDB;
 import delivery.com.db.StockDB;
+import delivery.com.db.TierDB;
 import delivery.com.event.DespatchStoreEvent;
 import delivery.com.event.DownloadDespatchEvent;
 import delivery.com.model.DespatchItem;
 import delivery.com.model.OutletItem;
 import delivery.com.model.StockItem;
+import delivery.com.model.TierItem;
 import delivery.com.proxy.DownloadDespatchProxy;
 import delivery.com.ui.MainActivity;
 import delivery.com.vo.DownloadDespatchResponseVo;
@@ -42,6 +45,7 @@ public class DespatchStoreTask extends AsyncTask<String, Void, Integer> {
             JSONArray jsonDespatchArray = new JSONArray(despatches);
             DespatchDB despatchDB = new DespatchDB(ctx);
             OutletDB outletDB = new OutletDB(ctx);
+            TierDB tierDB = new TierDB(ctx);
             StockDB stockDB = new StockDB(ctx);
 
             if(jsonDespatchArray.length() == 0)
@@ -77,35 +81,57 @@ public class DespatchStoreTask extends AsyncTask<String, Void, Integer> {
                         outletItem.setServiceType(jsonOutletItem.getString("service"));
                         outletItem.setDelivered(jsonOutletItem.getInt("delivered"));
                         outletItem.setDeliveredTime(jsonOutletItem.getString("deliveredtime"));
-                        outletItem.setTiers(jsonOutletItem.getInt("tiers"));
+                        outletItem.setTiers(jsonOutletItem.getInt("tierstotal"));
                         outletItem.setReason(jsonOutletItem.getInt("reason"));
 
                         outletDB.addOutlet(outletItem);
-                        String stock = jsonOutletItem.getString("stock");
-                        JSONArray jsonStockArray = new JSONArray(stock);
-                        for(int k = 0; k < jsonStockArray.length(); k++) {
-                            JSONObject jsonStockItem = jsonStockArray.getJSONObject(k);
-                            StockItem stockItem = new StockItem();
 
-                            stockItem.setDespatchID(despatchID);
-                            stockItem.setOutletID(outletID);
-                            stockItem.setStock(jsonStockItem.getString("stock"));
-                            stockItem.setTitleID(jsonStockItem.getString("titleID"));
-                            stockItem.setStockId(jsonStockItem.getString("stockID"));
-                            stockItem.setSize(jsonStockItem.getString("size"));
-                            stockItem.setStatus(jsonStockItem.getString("status"));
-                            stockItem.setTier(jsonStockItem.getInt("tier"));
-                            stockItem.setTierspace(jsonStockItem.getInt("tiersspace"));
-                            String slot = jsonStockItem.getString("slot");
-                            if(!slot.isEmpty())
-                                stockItem.setSlot(Integer.valueOf(jsonStockItem.getString("slot")));
-                            else
-                                stockItem.setSlot(0);
-                            stockItem.setQty(StateConsts.STOCK_QTY_NONE);
-                            stockItem.setRemove(jsonStockItem.getString("remove"));
-                            stockItem.setRemoveID(jsonStockItem.getString("removeID"));
+                        String tiers = jsonOutletItem.getString("tiers");
+                        JSONArray jsonTierArray = new JSONArray(tiers);
 
-                            stockDB.addStock(stockItem);
+                        for(int u = 0; u < jsonTierArray.length(); u++) {
+                            Log.v("Outlet", outletItem.getOutletId());
+                            Log.v("TierNo", String.valueOf(u));
+                            JSONObject jsonTierItem = jsonTierArray.getJSONObject(u);
+                            TierItem tierItem = new TierItem();
+
+                            String tierNo = jsonTierItem.getString("tier_no");
+
+                            tierItem.setDespatchID(despatchID);
+                            tierItem.setOutletID(outletID);
+                            tierItem.setTierNo(tierNo);
+                            tierItem.setTierspace(jsonTierItem.getString("tierspace"));
+                            tierItem.setSlots(jsonTierItem.getInt("slots"));
+                            tierItem.setTierOrder(jsonTierItem.getInt("tierOrder"));
+
+                            tierDB.addTier(tierItem);
+
+                            String stock = jsonTierItem.getString("stock");
+                            JSONArray jsonStockArray = new JSONArray(stock);
+                            for (int k = 0; k < jsonStockArray.length(); k++) {
+                                JSONObject jsonStockItem = jsonStockArray.getJSONObject(k);
+                                StockItem stockItem = new StockItem();
+
+                                stockItem.setDespatchID(despatchID);
+                                stockItem.setOutletID(outletID);
+                                stockItem.setStock(jsonStockItem.getString("stock"));
+                                stockItem.setTitleID(jsonStockItem.getString("titleID"));
+                                stockItem.setStockId(jsonStockItem.getString("stockID"));
+                                stockItem.setSize(jsonStockItem.getString("size"));
+                                stockItem.setTier(tierNo);
+                                stockItem.setStatus(jsonStockItem.getString("status"));
+                                stockItem.setSlotOrder(jsonStockItem.getInt("slotOrder"));
+                                String slot = jsonStockItem.getString("slot");
+                                if (!slot.isEmpty())
+                                    stockItem.setSlot(jsonStockItem.getString("slot"));
+                                else
+                                    stockItem.setSlot("0");
+                                stockItem.setQty(StateConsts.STOCK_QTY_NONE);
+                                stockItem.setRemove(jsonStockItem.getString("remove"));
+                                stockItem.setRemoveID(jsonStockItem.getString("removeID"));
+
+                                stockDB.addStock(stockItem);
+                            }
                         }
                     }
                 }

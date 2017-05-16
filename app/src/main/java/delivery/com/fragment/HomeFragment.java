@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment {
         hideProgressDialog();
         int result = event.getResponse();
         if(result == 1) {
-            ((MainActivity) getActivity()).showDespatchFragment();
+            downloadSuccess();
         } else if (result == 2) {
             noDespatch();
         } else if (result == 0){
@@ -216,7 +216,15 @@ public class HomeFragment extends Fragment {
     }
 
     private void uploadSuccess() {
-        Toast.makeText(getActivity(), R.string.upload_success, Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.app_name));
+        builder.setMessage(getString(R.string.upload_success));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
     }
 
     private void networkError() {
@@ -231,8 +239,28 @@ public class HomeFragment extends Fragment {
         Toast.makeText(getActivity(), R.string.db_error, Toast.LENGTH_SHORT).show();
     }
 
+    private void downloadSuccess() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.app_name));
+        builder.setMessage(getString(R.string.download_accomplished));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ((MainActivity) getActivity()).showDespatchFragment();
+            }
+        }).create().show();
+    }
+
     private void noDespatch() {
-        Toast.makeText(getActivity(), R.string.no_despatch, Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.app_name));
+        builder.setMessage(getString(R.string.no_despatch));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
     }
 
     private void parseDespatches(String despatches) {

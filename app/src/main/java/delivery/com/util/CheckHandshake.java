@@ -73,7 +73,7 @@ public final class CheckHandshake {
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                    .connectTimeout(40, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(120, TimeUnit.SECONDS)
                     .readTimeout(120, TimeUnit.SECONDS);
             builder.sslSocketFactory(sslSocketFactory);

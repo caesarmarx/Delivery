@@ -27,6 +27,7 @@ import delivery.com.consts.StateConsts;
 import delivery.com.db.DespatchDB;
 import delivery.com.db.OutletDB;
 import delivery.com.db.StockDB;
+import delivery.com.db.TierDB;
 import delivery.com.model.DespatchItem;
 import delivery.com.ui.DividerItemDecoration;
 import delivery.com.ui.MainActivity;
@@ -128,6 +129,9 @@ public class DespatchFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 StockDB stockDB = new StockDB(getActivity());
                 stockDB.removeDatasByDespatchID(item.getDespatchId());
+
+                TierDB tierDB = new TierDB(getActivity());
+                tierDB.removeDatasByDespatchID(item.getDespatchId());
 
                 OutletDB outletDB = new OutletDB(getActivity());
                 outletDB.removeDatasByDespatchID(item.getDespatchId());

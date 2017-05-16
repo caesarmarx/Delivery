@@ -21,11 +21,13 @@
     <string name="remove_stock">Remove Stock</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="ok">Ok</string>
     <string name="no_completed_despatch">No Completed Despatch</string>
     <string name="outlet_complete_format" formatted="false">Outlet completed %d out of %d</string>
-    <string name="tier_space_format">SPACE LEFT: %d units</string>
+    <string name="tier_space_format">SPACE LEFT: %s units</string>
     <string name="login_failed">Login Failed.</string>
     <string name="permission_denied">Permission Denied</string>
+    <string name="download_accomplished">Download Accomplished.</string>
 
     <string name="clone_despatch">DESPATCH:</string>
     <string name="clone_run">RUN:</string>
@@ -44,7 +46,7 @@
     <string name="hint_password">Password</string>
     <string name="btn_login">LOG IN</string>
     <string name="btn_full">FULL</string>
-    <string name="btn_restock">RESTOCK</string>
+    <string name="btn_part">PART</string>
     <string name="btn_none">NONE</string>
     <string name="btn_missing">MISSING</string>
     <string name="btn_save">SAVE</string>
@@ -57,7 +59,7 @@
         <item>Out of Hours Closed</item>
         <item>Refurbishment Closed</item>
         <item>Site has Closed Down</item>
-        <item>Display not Accessible on This Site</item>
+        <item>Display not Accessible on this visit</item>
         <item>Display missing</item>
         <item>Display broken</item>
         <item>Display temporarily Put Away</item>

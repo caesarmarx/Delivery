@@ -49,9 +49,9 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         }
         final StockItem item = items.get(position);
 
-        holder.tvSlot.setText(String.valueOf(item.getSlot()));
-        holder.tvEmptySlot.setText(String.valueOf(item.getSlot()));
-        holder.tvStock.setText(item.getStock());
+        holder.tvSlot.setText(String.valueOf(item.getSlotOrder()));
+        holder.tvEmptySlot.setText(String.valueOf(item.getSlotOrder()));
+        holder.tvStock.setText(item.getStock().replaceAll("&amp;", "&"));
         holder.tvTitleID.setText("[" + item.getTitleID() + "]");
         holder.tvSize.setText("[" + item.getSize() + "]");
         holder.tvStock.setSelected(true);
@@ -62,10 +62,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.emptyLayout.setVisibility(View.GONE);
 
         if(item.getStatus().equals("In Stock")) {
-            holder.tvStockStatus.setTextColor(parent.getResources().getColor(R.color.colorGreen));
+            holder.tvStockStatus.setTextColor(parent.getResources().getColor(R.color.colorSimpleGray));
         } else if(item.getStatus().equals("Out of Stock")){
             holder.tvStockStatus.setTextColor(parent.getResources().getColor(R.color.colorRemove));
-        } else {
+        } else if(item.getStatus().equals("New Stock")) {
+            holder.tvStockStatus.setTextColor(parent.getResources().getColor(R.color.colorGreen));
+        }else {
             holder.stockLayout.setVisibility(View.GONE);
             holder.removeLayout.setVisibility(View.GONE);
             holder.emptyLayout.setVisibility(View.VISIBLE);

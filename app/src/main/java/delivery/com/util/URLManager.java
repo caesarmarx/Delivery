@@ -10,7 +10,8 @@ public class URLManager {
     }
 
     public static String getUploadDespatchURL() {
-        return "http://glideadmin.co.uk/json/deliverySend.php";
+//        return "http://glideadmin.co.uk/json/deliverySend.php";
+        return "http://glideadmin.co.uk/json/deliveryRetrieve.php";
     }
 
     public static String getLoginURL() {
